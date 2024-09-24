@@ -1,0 +1,13 @@
+@import './../../style/variables.scss';
+.cardNews {
+  width: 500px;
+  margin-bottom: 15px;
+  padding: 2px;
+}
+.linkNews {
+  text-decoration: none;
+  color: $black;
+  &:visited {
+    color: $font-color-dark;
+  }
+}

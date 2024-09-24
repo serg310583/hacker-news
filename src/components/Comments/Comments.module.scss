@@ -1,0 +1,18 @@
+@import './../../style/variables.scss';
+.refreshBtn {
+  margin-top: 15px;
+}
+.titleComments {
+  margin-bottom: 8px;
+}
+.divider {
+  margin-right: 5px !important;
+  margin-left: 5px !important;
+}
+.commentsInfo {
+  display: flex;
+}
+.commentDetails {
+  color: $main-light;
+  font-size: 14px;
+}

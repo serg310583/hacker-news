@@ -1,0 +1,11 @@
+@import './../../../style/variables.scss';
+.subCommentWrapper {
+  margin-left: 40px;
+}
+.commentsInfo {
+  display: flex;
+}
+.commentDetails {
+  color: $main-light;
+  font-size: 14px;
+}

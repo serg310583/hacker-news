@@ -1,0 +1,12 @@
+@import './../../style/variables.scss';
+.detailsWrapper {
+  display: flex;
+}
+.divider {
+  margin-right: 5px !important;
+  margin-left: 5px !important;
+}
+.itemDetails {
+  color: $main-light;
+  font-size: 14px;
+}
