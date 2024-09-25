@@ -1,9 +1,10 @@
+import Skeleton from '@mui/material/Skeleton';
+import Stack from '@mui/material/Stack';
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router';
-import { BackBtn } from '../../components/BackBtn/BackBtn';
 import { Comments } from '../../components/Comments/Comments';
-import { NewsDetails } from '../../components/NewsDetails/NewsDetails';
+import { NewsContent } from '../../components/NewsContent/NewsContent';
 import { refresh } from '../../core/store/GetComments/slice';
 import { getComments } from '../../core/store/GetComments/thunk';
 import { currentNewsState } from '../../core/store/GetCurrentNews/slice';
@@ -14,7 +15,7 @@ export function NewsPage() {
   const dispatch = useDispatch();
   const id = Number(useParams().id);
 
-  const { currentNews, isSuccess } = useSelector(currentNewsState);
+  const { currentNews, isSuccess, isLoading } = useSelector(currentNewsState);
 
   useEffect(() => {
     dispatch(refresh());
@@ -23,36 +24,29 @@ export function NewsPage() {
 
   useEffect(() => {
     if (isSuccess && currentNews.kids && currentNews.kids.length > 0) {
-      dispatch(getComments(currentNews.kids)); // Отправляем запрос для получения комментариев
+      dispatch(getComments(currentNews.kids));
     }
   }, [isSuccess, currentNews, dispatch]);
 
-  if (isSuccess) {
+  if (isLoading) {
     return (
-      <div className={style.newsWrapper}>
-        <div className={style.backBtn}>
-          <BackBtn />
-        </div>
-
-        <div
-          className={style.titleNews}
-          dangerouslySetInnerHTML={{ __html: currentNews.title }}
-        />
-        <div
-          className={style.textNews}
-          dangerouslySetInnerHTML={{ __html: currentNews.text }}
-        />
-        <NewsDetails item={currentNews} />
-        <div className={style.linkSource}>
-          {currentNews.url ? (
-            <a href={currentNews.url} target='blank'>
-              source
-            </a>
-          ) : null}
-        </div>
-
-        <Comments />
+      <div className={style.skeleton}>
+        <Stack spacing={1}>
+          <Skeleton variant='rectangular' width={800} height={80} />
+          <Skeleton variant='text' width={300} height={40} />
+          <Skeleton variant='rectangular' width={500} height={80} />
+        </Stack>
       </div>
     );
   }
+
+  if (isSuccess) {
+    return (
+      <div>
+        <NewsContent news={currentNews} /> <Comments />
+      </div>
+    );
+  }
+
+  return null;
 }

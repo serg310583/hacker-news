@@ -1,12 +1,11 @@
-// import Divider from '@mui/material/Divider';
 import { Divider } from '@mui/material';
 import { styled } from '@mui/material/styles';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router';
 import { commentsState } from '../../core/store/GetComments/slice';
 import { getComments } from '../../core/store/GetComments/thunk';
-import { currentNewsState } from '../../core/store/GetCurrentNews/slice';
-import { getCurrentNews } from '../../core/store/GetCurrentNews/thunk';
+import { mainCommentsState } from '../../core/store/GetMainComments/slice';
+import { getMainComments } from '../../core/store/GetMainComments/thunk';
 import { convertToDate } from '../../utils/convertDate';
 import { RefreshBtn } from '../RefreshBtn/RefreshBtn';
 import { SubComment } from './Comment/SubComment';
@@ -17,13 +16,13 @@ export function Comments() {
   const dispatch = useDispatch();
   const id = Number(useParams().id);
   const { isLoading } = useSelector(commentsState);
-  const { currentNews } = useSelector(currentNewsState);
+  const { mainComments } = useSelector(mainCommentsState);
   const quantityComments = comments.length;
 
   const handleRefresh = async () => {
-    dispatch(getCurrentNews(id));
-    if (currentNews.kids) {
-      dispatch(getComments(currentNews.kids));
+    dispatch(getMainComments(id));
+    if (mainComments.kids) {
+      dispatch(getComments(mainComments.kids));
     }
   };
 
@@ -37,8 +36,25 @@ export function Comments() {
   }));
 
   return (
-    <>
-      <h3 className={style.titleComments}>{quantityComments} Comments</h3>
+    <div className={style.commentsWrapper}>
+      <div className={style.commentsHeader}>
+        <h3 className={style.titleComments}>
+          {quantityComments === 0
+            ? 'no comments'
+            : `${quantityComments} ${
+                quantityComments === 1 ? 'comment' : 'comments'
+              }`}
+        </h3>
+        <div className={style.refreshBtn}>
+          <RefreshBtn
+            handleRefresh={handleRefresh}
+            isLoading={isLoading}
+            loading
+            variant='plain'
+          />
+        </div>
+      </div>
+
       {isSuccess && (
         <div>
           <Root>
@@ -67,9 +83,6 @@ export function Comments() {
           </Root>
         </div>
       )}
-      <div className={style.refreshBtn}>
-        <RefreshBtn handleRefresh={handleRefresh} isLoading={isLoading} />
-      </div>
-    </>
+    </div>
   );
 }

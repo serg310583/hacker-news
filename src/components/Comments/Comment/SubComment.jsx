@@ -22,6 +22,14 @@ export function SubComment({ parent }) {
     return subCommentArr;
   }, [comments]);
 
+  // Фильтруем подкомментарии для текущего родителя
+  const filteredSubComments = subComments.filter(
+    (subComment) => subComment.parent === parent
+  );
+
+  // Количество подкомментариев для конкретного родителя
+  const quantitySubComments = filteredSubComments.length;
+
   useEffect(() => {
     if (subCommentIds.length > 0) {
       dispatch(getSubComments(subCommentIds));
@@ -40,7 +48,11 @@ export function SubComment({ parent }) {
   return (
     <div>
       <Button onClick={handleCommentVisible} variant='plain' size='sm'>
-        +
+        {quantitySubComments === 0
+          ? 'no comment'
+          : `${quantitySubComments} ${
+              quantitySubComments === 1 ? 'comment' : 'comments'
+            }`}
       </Button>
 
       {commentVisible && (

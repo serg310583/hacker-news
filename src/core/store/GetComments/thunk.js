@@ -8,7 +8,10 @@ export const getComments = createAsyncThunk(
       const responses = await Promise.all(
         currentCommentsIds.map((id) => baseApi.get(`/item/${id}.json`))
       );
-      return responses.map((response) => response.data);
+      const comments = responses
+        .map((response) => response.data)
+        .sort((a, b) => b.time - a.time);
+      return comments;
     } catch (err) {
       return thunkAPI.rejectWithValue(
         err.response?.data?.errors || 'Error fetching comments'

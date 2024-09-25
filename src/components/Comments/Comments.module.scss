@@ -1,14 +1,20 @@
 @import './../../style/variables.scss';
-.refreshBtn {
-  margin-top: 15px;
+.commentsWrapper {
+  padding: 0px 40px 40px 40px;
+}
+.commentsHeader {
+  display: flex;
+  gap: 15px;
 }
 .titleComments {
+  line-height: 38px;
   margin-bottom: 8px;
 }
 .divider {
   margin-right: 5px !important;
   margin-left: 5px !important;
 }
+
 .commentsInfo {
   display: flex;
 }
